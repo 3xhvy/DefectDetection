@@ -1,0 +1,12 @@
+Accuracy: 0.5597
+Precision: 0.5485
+Recall: 0.2343
+F1 Score: 0.3283
+ROC AUC: 0.5665
+PR AUC: 0.5425
+
+Confusion Matrix:
+True Negatives: 1235
+False Positives: 242
+False Negatives: 961
+True Positives: 294

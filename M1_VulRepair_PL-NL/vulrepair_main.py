@@ -22,7 +22,8 @@ import random
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset, SequentialSampler, RandomSampler
-from transformers import (AdamW, get_linear_schedule_with_warmup, 
+from torch.optim import AdamW
+from transformers import (get_linear_schedule_with_warmup,
                           T5ForConditionalGeneration, RobertaTokenizer)
 from tqdm import tqdm
 import pandas as pd
@@ -43,7 +44,7 @@ class InputFeatures(object):
         self.input_ids = input_ids
         self.label=label
         self.decoder_input_ids = decoder_input_ids
-        
+
 
 class TextDataset(Dataset):
     def __init__(self, tokenizer, args, train_data=None, val_data=None, file_type="train"):
@@ -70,7 +71,7 @@ class TextDataset(Dataset):
     def __len__(self):
         return len(self.examples)
 
-    def __getitem__(self, i):       
+    def __getitem__(self, i):
         return self.examples[i].input_ids, self.examples[i].input_ids.ne(0), self.examples[i].label, self.examples[i].decoder_input_ids
 
 
@@ -93,12 +94,12 @@ def train(args, train_dataset, model, tokenizer, eval_dataset):
     # build dataloader
     train_sampler = RandomSampler(train_dataset)
     train_dataloader = DataLoader(train_dataset, sampler=train_sampler, batch_size=args.train_batch_size, num_workers=0)
-    
+
     args.max_steps = args.epochs * len(train_dataloader)
 
     # evaluate model per epoch
     args.save_steps = len(train_dataloader) * 1
-   
+
     args.warmup_steps = args.max_steps // 5
     model.to(args.device)
 
@@ -113,7 +114,7 @@ def train(args, train_dataset, model, tokenizer, eval_dataset):
     optimizer = AdamW(optimizer_grouped_parameters, lr=args.learning_rate, eps=args.adam_epsilon)
     scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=args.warmup_steps,
                                                 num_training_steps=args.max_steps)
-    
+
     # multi-gpu training
     if args.n_gpu > 1:
         model = torch.nn.DataParallel(model)
@@ -126,7 +127,7 @@ def train(args, train_dataset, model, tokenizer, eval_dataset):
     logger.info("  Total train batch size = %d",args.train_batch_size*args.gradient_accumulation_steps)
     logger.info("  Gradient Accumulation steps = %d", args.gradient_accumulation_steps)
     logger.info("  Total optimization steps = %d", args.max_steps)
-    
+
     global_step = 0
     tr_loss, logging_loss, avg_loss, tr_nb, tr_num, train_loss = 0.0, 0.0, 0.0, 0, 0, 0
     best_loss = 100
@@ -136,7 +137,7 @@ def train(args, train_dataset, model, tokenizer, eval_dataset):
 
     model.zero_grad()
 
-    for idx in range(args.epochs): 
+    for idx in range(args.epochs):
         bar = tqdm(train_dataloader, total=len(train_dataloader))
         tr_num = 0
         train_loss = 0
@@ -158,29 +159,29 @@ def train(args, train_dataset, model, tokenizer, eval_dataset):
                 avg_loss = tr_loss
             avg_loss = round(train_loss/tr_num,5)
             bar.set_description("epoch {} loss {}".format(idx,avg_loss))
-            
+
             if (step + 1) % args.gradient_accumulation_steps == 0:
                 optimizer.step()
                 optimizer.zero_grad()
-                scheduler.step()  
+                scheduler.step()
                 global_step += 1
                 output_flag = True
                 avg_loss = round(np.exp((tr_loss - logging_loss) /(global_step- tr_nb)),4)
                 if global_step % args.save_steps == 0:
                     # placeholder of evaluation
-                    eval_loss = evaluate(args, model, tokenizer, eval_dataset, eval_when_training=True)    
+                    eval_loss = evaluate(args, model, tokenizer, eval_dataset, eval_when_training=True)
                     # Save model checkpoint
                     if eval_loss < best_loss:
                         best_loss = eval_loss
-                        logger.info("  "+"*"*20)  
+                        logger.info("  "+"*"*20)
                         logger.info("  Best Loss:%s",round(best_loss,4))
-                        logger.info("  "+"*"*20)                          
+                        logger.info("  "+"*"*20)
                         checkpoint_prefix = 'checkpoint-best-loss'
-                        output_dir = os.path.join(args.output_dir, '{}'.format(checkpoint_prefix))                        
+                        output_dir = os.path.join(args.output_dir, '{}'.format(checkpoint_prefix))
                         if not os.path.exists(output_dir):
-                            os.makedirs(output_dir)                        
+                            os.makedirs(output_dir)
                         model_to_save = model.module if hasattr(model,'module') else model
-                        output_dir = os.path.join(output_dir, '{}'.format(args.model_name)) 
+                        output_dir = os.path.join(output_dir, '{}'.format(args.model_name))
                         torch.save(model_to_save.state_dict(), output_dir)
                         logger.info("Saving model checkpoint to %s", output_dir)
 
@@ -204,7 +205,7 @@ def evaluate(args, model, tokenizer, eval_dataset, eval_when_training=False):
     logger.info("  Num examples = %d", len(eval_dataset))
     logger.info("  Batch size = %d", args.eval_batch_size)
     model.eval()
-    
+
     eval_loss, num = 0, 0
     bar = tqdm(eval_dataloader, total=len(eval_dataloader))
     for batch in bar:
@@ -297,7 +298,7 @@ def main():
                              "The training dataset will be truncated in block of this size for training."
                              "Default to the model max input length for single sentence inputs (take into account special tokens).")
     parser.add_argument("--num_beams", default=50, type=int,
-                        help="Beam size to use when decoding.")                          
+                        help="Beam size to use when decoding.")
     parser.add_argument("--model_name", default="model.bin", type=str,
                         help="Saved model name.")
     parser.add_argument("--checkpoint_model_name", default="non_domain_model.bin", type=str,
@@ -354,7 +355,7 @@ def main():
 
     tokenizer = RobertaTokenizer.from_pretrained(args.tokenizer_name)
     tokenizer.add_tokens(["<S2SV_StartBug>", "<S2SV_EndBug>", "<S2SV_blank>", "<S2SV_ModStart>", "<S2SV_ModEnd>"])
-    model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path) 
+    model = T5ForConditionalGeneration.from_pretrained(args.model_name_or_path)
     model.resize_token_embeddings(len(tokenizer))
 
     logger.info("Training/evaluation parameters %s", args)
@@ -367,11 +368,11 @@ def main():
         eval_dataset = TextDataset(tokenizer, args, train_data, val_data, file_type='eval')
         train(args, train_dataset, model, tokenizer, eval_dataset)
     # Evaluation
-    results = {}  
+    results = {}
     if args.do_test:
         if args.model_name_or_path != "MickyMike/VulRepair":
             checkpoint_prefix = f'checkpoint-best-loss/{args.model_name}'
-            output_dir = os.path.join(args.output_dir, '{}'.format(checkpoint_prefix))  
+            output_dir = os.path.join(args.output_dir, '{}'.format(checkpoint_prefix))
             model.load_state_dict(torch.load(output_dir, map_location=args.device))
         model.to(args.device)
         test_dataset = TextDataset(tokenizer, args, file_type='test')
