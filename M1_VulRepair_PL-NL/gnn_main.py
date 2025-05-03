@@ -1,9 +1,10 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch_geometric.data import Dataset
-from torch_geometric.nn import GCNConv, global_mean_pool
-from torch_geometric.utils import from_networkx
+from torch_geometric.nn import GCNConv, global_mean_pool, GATConv
+from torch_geometric.utils import from_networkx, to_networkx
 import networkx as nx
 import numpy as np
 from tree_sitter import Language, Parser
@@ -144,6 +145,8 @@ class CodeDefectDataset(Dataset):
         code = self.code_samples[idx]
         try:
             graph_data = build_graph_from_code(code, self.language)
+            # ENRICH NODE FEATURES
+            graph_data = enrich_node_features(graph_data)
 
             # Create more informative node features
             node_features = []
@@ -177,6 +180,102 @@ class CodeDefectDataset(Dataset):
             graph_data.y = torch.tensor([float(self.labels[idx])], dtype=torch.float)
             return graph_data
 
+# --- GRAPH DATA INSPECTION ---
+def print_graph_sample(dataset):
+    print("Sample graph object from dataset:")
+    sample = dataset[0]
+    print(sample)
+    print("Sample label:", sample.y)
+    # Optionally visualize the graph structure (requires matplotlib)
+    try:
+        import matplotlib.pyplot as plt
+        import networkx as nx
+        from torch_geometric.utils import to_networkx
+        g = to_networkx(sample)
+        nx.draw(g, with_labels=True)
+        plt.show()
+    except Exception as e:
+        print("Graph visualization failed:", e)
+
+# --- ADVANCED: NODE FEATURE ENRICHMENT EXAMPLE ---
+def enrich_node_features(graph_data):
+    # Example: add one-hot encoding of node type (if not already present)
+    # This assumes 'type' is in graph_data and is categorical
+    import torch
+    import numpy as np
+    if hasattr(graph_data, 'type'):
+        if isinstance(graph_data.type, (np.ndarray, torch.Tensor)):
+            node_types = graph_data.type.tolist()
+        else:
+            node_types = list(graph_data.type)
+    else:
+        node_types = []
+    if node_types:
+        unique_types = list(set(node_types))
+        type_to_idx = {t: i for i, t in enumerate(unique_types)}
+        one_hot = np.zeros((len(node_types), len(unique_types)))
+        for idx, t in enumerate(node_types):
+            one_hot[idx, type_to_idx[t]] = 1
+        one_hot_tensor = torch.tensor(one_hot, dtype=torch.float)
+        # Only concatenate if graph_data.x is valid
+        if hasattr(graph_data, 'x') and graph_data.x is not None:
+            graph_data.x = torch.cat([graph_data.x, one_hot_tensor], dim=1)
+        else:
+            graph_data.x = one_hot_tensor
+    return graph_data
+
+# Example usage after graph construction:
+# sample = enrich_node_features(sample)
+
+# --- ADVANCED: TRY AN ALTERNATIVE GNN LAYER (e.g., GAT) ---
+class GATDefectDetectionModel(nn.Module):
+    def __init__(self, in_channels, hidden_channels, out_channels, num_layers=2, dropout=0.5):
+        super(GATDefectDetectionModel, self).__init__()
+        self.convs = nn.ModuleList()
+        self.batch_norms = nn.ModuleList()
+        # First layer
+        self.convs.append(GATConv(in_channels, hidden_channels))
+        self.batch_norms.append(nn.BatchNorm1d(hidden_channels))
+        # Middle layers
+        for _ in range(num_layers - 2):
+            self.convs.append(GATConv(hidden_channels, hidden_channels))
+            self.batch_norms.append(nn.BatchNorm1d(hidden_channels))
+        # Last GAT layer
+        self.convs.append(GATConv(hidden_channels, out_channels))
+        self.batch_norms.append(nn.BatchNorm1d(out_channels))
+        # Classification layers
+        self.fc1 = nn.Linear(out_channels, hidden_channels)
+        self.fc2 = nn.Linear(hidden_channels, hidden_channels // 2)
+        self.fc3 = nn.Linear(hidden_channels // 2, 1)
+        self.dropout = nn.Dropout(dropout)
+    def forward(self, data):
+        x, edge_index, batch = data.x, data.edge_index, data.batch
+        for i, conv in enumerate(self.convs[:-1]):
+            x = conv(x, edge_index)
+            x = self.batch_norms[i](x)
+            x = torch.relu(x)
+            x = self.dropout(x)
+        x = self.convs[-1](x, edge_index)
+        x = self.batch_norms[-1](x)
+        x = torch.relu(x)
+        from torch_geometric.nn import global_mean_pool
+        x = global_mean_pool(x, batch)
+        x = torch.relu(self.fc1(x))
+        x = self.dropout(x)
+        x = torch.relu(self.fc2(x))
+        x = self.dropout(x)
+        x = self.fc3(x)
+        return x.squeeze(-1)
+
+# To use: replace GNNDefectDetectionModel with GATDefectDetectionModel in main()
+
+# --- ADVANCED: THRESHOLD TUNING FOR RECALL ---
+def predict_with_threshold(logits, threshold=0.5):
+    probs = torch.sigmoid(logits)
+    return (probs > threshold).float()
+
+# In evaluation, try threshold=0.3 for higher recall:
+# preds = predict_with_threshold(logits, threshold=0.3)
 
 def set_seed(seed):
     random.seed(seed)
@@ -273,7 +372,8 @@ def evaluate(args, model, eval_loader, criterion, device):
             loss = criterion(output.squeeze(), batch.y.squeeze())
             total_loss += loss.item()
 
-            preds = (output.squeeze() > 0.5).float()
+            # preds = (output.squeeze() > 0.5).float()
+            preds = predict_with_threshold(output, threshold=0.5)  # Set threshold to 0.5
 
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(batch.y.cpu().numpy())
@@ -309,6 +409,37 @@ def evaluate(args, model, eval_loader, criterion, device):
     }
 
     return total_loss / len(eval_loader), metrics
+
+
+# --- DATASET INSPECTION UTILS ---
+def print_dataset_stats(name, data):
+    from collections import Counter
+    labels = data['label'].tolist() if hasattr(data, 'label') else data['label']
+    counter = Counter(labels)
+    print(f"{name} set size: {len(labels)}")
+    print(f"{name} label distribution: {dict(counter)}")
+
+# --- SAMPLE INSPECTION ---
+def print_sample_entries(data, n=5):
+    print(f"Sample entries from dataset:")
+    print(data.sample(n))
+
+# --- GRAPH DATA INSPECTION ---
+def print_graph_sample(dataset):
+    print("Sample graph object from dataset:")
+    sample = dataset[0]
+    print(sample)
+    print("Sample label:", sample.y)
+    # Optionally visualize the graph structure (requires matplotlib)
+    try:
+        import matplotlib.pyplot as plt
+        import networkx as nx
+        from torch_geometric.utils import to_networkx
+        g = to_networkx(sample)
+        nx.draw(g, with_labels=True)
+        plt.show()
+    except Exception as e:
+        print("Graph visualization failed:", e)
 
 
 def main():
@@ -362,16 +493,31 @@ def main():
 
     # Training
     if args.do_train:
-        # Load dataset - following the same approach as in vulrepair_main.py
-        logger.info("Loading training dataset...")
+        # Load both train and test splits from HuggingFace dataset
+        logger.info("Loading training and test datasets for custom split...")
         train_data_whole = datasets.load_dataset("google/code_x_glue_cc_defect_detection", split="train")
-        df = pd.DataFrame({"code": train_data_whole["func"], "label": train_data_whole["target"]})
+        test_data_whole = datasets.load_dataset("google/code_x_glue_cc_defect_detection", split="test")
 
-        logger.info("Dataset before split:")
-        logger.info("Total samples: %d", len(df))
+        # Combine both splits
+        df = pd.DataFrame({
+            "code": train_data_whole["func"] + test_data_whole["func"],
+            "label": train_data_whole["target"] + test_data_whole["target"]
+        })
+        logger.info("Total samples after combining: %d", len(df))
 
-        # Use the same test split ratio as in vulrepair_main.py
-        train_data, val_data = train_test_split(df, test_size=0.1238, random_state=args.seed)
+        # Stratified split: train/val/test (80/10/10)
+        train_data, temp_data = train_test_split(df, test_size=0.2, random_state=args.seed, stratify=df["label"])
+        val_data, test_data = train_test_split(temp_data, test_size=0.5, random_state=args.seed, stratify=temp_data["label"])
+
+        # Log distributions
+        for name, data in [("Train", train_data), ("Val", val_data), ("Test", test_data)]:
+            logger.info("%s set: %d samples, label distribution: %s", name, len(data), data["label"].value_counts().to_dict())
+
+        # Print dataset stats
+        print_dataset_stats("Train", train_data)
+        print_dataset_stats("Validation", val_data)
+        print_dataset_stats("Test", test_data)
+        print_sample_entries(train_data, n=5)
 
         # Create datasets
         train_dataset = CodeDefectDataset(
@@ -386,6 +532,9 @@ def main():
             language,
             args
         )
+
+        # Print graph sample
+        print_graph_sample(train_dataset)
 
         # Create dataloaders
         train_loader = DataLoader(train_dataset,
@@ -403,17 +552,17 @@ def main():
                                prefetch_factor=2)  # Prefetch 2 batches per worker
 
         # Initialize model
-        model = GNNDefectDetectionModel(
+        model = GATDefectDetectionModel(
             in_channels=7,  # Feature dimension from node features
-            hidden_channels=args.hidden_channels,
+            hidden_channels=64,  # Use 64 hidden channels
             out_channels=args.out_channels,
-            num_layers=args.num_layers
+            num_layers=2  # Use 2 GAT layers
         ).to(device)
 
         # Initialize optimizer and loss
         optimizer = optim.AdamW(model.parameters(),
                               lr=args.learning_rate,
-                              weight_decay=args.weight_decay)
+                              weight_decay=1e-4)  # Add weight_decay=1e-4
 
         # Use class weights if there's imbalance
         class_counts = train_data['label'].value_counts().to_dict()
@@ -427,11 +576,17 @@ def main():
         else:
             criterion = nn.BCEWithLogitsLoss()
 
-        # Training loop
-        best_accuracy = 0
+        # Add learning rate scheduler
+        scheduler = ReduceLROnPlateau(optimizer, mode='max', factor=0.5, patience=5)
+
+        # Early stopping variables
+        patience = 10  # Number of epochs to wait for improvement
+        epochs_no_improve = 0
         best_f1 = 0
+        best_accuracy = 0
+
         for epoch in range(args.epochs):
-            log.info(f"----EPOCH {epoch+1}-----------------------------------")
+            logger.info(f"--------------------------EPOCH {epoch+1}-----------------------------------")
             # Train
             train_loss = train(args, model, train_loader, optimizer, criterion, device)
 
@@ -448,31 +603,42 @@ def main():
             logger.info(f"Eval Recall: {eval_metrics['recall']:.4f}")
             logger.info(f"Eval F1: {eval_f1:.4f}")
 
-            # Save best model based on F1 score (better for imbalanced datasets)
+            # Step the scheduler with the eval F1 score
+            scheduler.step(eval_f1)
+
+            # Save best model and early stopping
             if eval_f1 > best_f1:
                 best_f1 = eval_f1
-                best_accuracy = eval_accuracy
-                logger.info("  " + "*" * 20)
-                logger.info("  Best F1: %.4f", best_f1)
-                logger.info("  " + "*" * 20)
-                checkpoint_prefix = 'checkpoint-best-f1'
-                output_dir = os.path.join(args.output_dir, '{}'.format(checkpoint_prefix))
-                if not os.path.exists(output_dir):
-                    os.makedirs(output_dir)
-                torch.save(model.state_dict(), os.path.join(output_dir, "model_best.pt"))
-                logger.info("Saving model checkpoint to %s", output_dir)
+                epochs_no_improve = 0
+                torch.save(model.state_dict(), "best_gnn_model.pt")
+                logger.info("Best model saved with F1: %.4f", best_f1)
+            else:
+                epochs_no_improve += 1
+                if epochs_no_improve >= patience:
+                    logger.info(f"Early stopping at epoch {epoch+1}")
+                    break
 
     # Testing
     if args.do_test:
-        # Load test dataset
-        logger.info("Loading test dataset...")
-        test_data = datasets.load_dataset("google/code_x_glue_cc_defect_detection", split="test")
-        test_dataset = CodeDefectDataset(
-            test_data["func"],
-            test_data["target"],
-            language,
-            args
-        )
+        # Use the custom test split if available
+        if 'test_data' in locals():
+            logger.info("Using custom test split from combined dataset...")
+            test_dataset = CodeDefectDataset(
+                test_data["code"].tolist(),
+                test_data["label"].tolist(),
+                language,
+                args
+            )
+        else:
+            # Fallback: Load HuggingFace test split
+            logger.info("Loading test dataset from HuggingFace split...")
+            test_data_hf = datasets.load_dataset("google/code_x_glue_cc_defect_detection", split="test")
+            test_dataset = CodeDefectDataset(
+                test_data_hf["func"],
+                test_data_hf["target"],
+                language,
+                args
+            )
         test_loader = DataLoader(test_dataset,
                                batch_size=args.eval_batch_size,
                                shuffle=False,
@@ -481,11 +647,11 @@ def main():
                                prefetch_factor=2)  # Prefetch 2 batches per worker
 
         # Load best model
-        model = GNNDefectDetectionModel(
+        model = GATDefectDetectionModel(
             in_channels=7,
-            hidden_channels=128,  # Changed from 256 to match saved model
-            out_channels=128,
-            num_layers=args.num_layers
+            hidden_channels=64,  # Changed from 256 to match saved model
+            out_channels=args.out_channels,
+            num_layers=2  # Use 2 GAT layers
         ).to(device)
 
         # Load model weights

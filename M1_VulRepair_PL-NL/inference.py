@@ -3,17 +3,17 @@ import argparse
 import logging
 from tree_sitter import Language
 import os
-from gnn_main import GNNDefectDetectionModel, build_graph_from_code
+from gnn_main import DevignInspiredGNN, build_enhanced_graph_from_code
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
                     datefmt='%m/%d/%Y %H:%M:%S',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def predict_vulnerability(code_snippet, model, language, device):
+def predict_vulnerability(code_snippet, model, language, device, args):
     """Predict if a code snippet contains vulnerabilities."""
     # Convert code to graph
-    graph_data = build_graph_from_code(code_snippet, language)
+    graph_data = build_enhanced_graph_from_code(code_snippet, language)
     
     # Create node features (same as in training)
     node_features = []
@@ -44,7 +44,7 @@ def predict_vulnerability(code_snippet, model, language, device):
     with torch.no_grad():
         output = model(graph_data)
         probability = torch.sigmoid(output).item()
-        prediction = 1 if probability > 0.5 else 0
+        prediction = 1 if probability > args.classification_threshold else 0
     
     return prediction, probability
 
@@ -55,8 +55,12 @@ def main():
     parser.add_argument("--hidden_channels", default=128, type=int)
     parser.add_argument("--out_channels", default=128, type=int)
     parser.add_argument("--num_layers", default=4, type=int)
+    parser.add_argument("--model_type", default="hybrid", type=str, 
+                        choices=["gcn", "gat", "hybrid"], 
+                        help="Model architecture: GCN, GAT, or hybrid")
     parser.add_argument("--input_file", type=str, help="Path to file containing code to analyze")
     parser.add_argument("--code_snippet", type=str, help="Direct code snippet to analyze")
+    parser.add_argument("--classification_threshold", default=0.3, type=float, help="Classification threshold")
     
     args = parser.parse_args()
     
@@ -72,11 +76,12 @@ def main():
         return
     
     # Initialize model
-    model = GNNDefectDetectionModel(
+    model = DevignInspiredGNN(
         in_channels=7,
         hidden_channels=args.hidden_channels,
         out_channels=args.out_channels,
-        num_layers=args.num_layers
+        num_layers=args.num_layers,
+        num_edge_types=3
     ).to(device)
     
     # Load model weights
@@ -102,7 +107,7 @@ def main():
         return
     
     # Make prediction
-    prediction, probability = predict_vulnerability(code, model, language, device)
+    prediction, probability = predict_vulnerability(code, model, language, device, args)
     
     # Output results
     logger.info("Analysis Results:")
