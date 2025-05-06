@@ -1,0 +1,14 @@
+05/05/2025 12:58:29 - INFO - __main__ - Starting model comparison
+05/05/2025 12:58:29 - INFO - __main__ - Running GNN models comparison only
+05/05/2025 12:58:33 - INFO - datasets - PyTorch version 2.7.0 available.
+05/05/2025 12:58:33 - INFO - gnn_comparison - Using device: cuda
+05/05/2025 12:58:33 - INFO - gnn_comparison - Loading datasets...
+05/05/2025 12:58:42 - INFO - gnn_comparison - Total samples after combining: 24586
+05/05/2025 12:58:42 - INFO - gnn_comparison - Train set: 19668 samples, label distribution: {False: 10650, True: 9018}
+05/05/2025 12:58:42 - INFO - gnn_comparison - Val set: 2459 samples, label distribution: {False: 1331, True: 1128}
+05/05/2025 12:58:42 - INFO - gnn_comparison - Test set: 2459 samples, label distribution: {False: 1332, True: 1127}
+05/05/2025 12:58:42 - INFO - gnn_comparison - Preparing data for GNN models...
+05/05/2025 12:58:42 - INFO - gnn_main - Dataset created with label distribution: {1.0: 9018, 0.0: 10650}
+05/05/2025 12:58:42 - INFO - gnn_main - Dataset created with label distribution: {1.0: 1128, 0.0: 1331}
+05/05/2025 12:58:42 - INFO - gnn_main - Dataset created with label distribution: {1.0: 1127, 0.0: 1332}
+05/05/2025 12:58:42 - INFO - gnn_comparison - Training GCN model...

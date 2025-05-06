@@ -1,0 +1,390 @@
+05/04/2025 22:09:09 - INFO - __main__ - Starting model comparison
+05/04/2025 22:09:49 - INFO - __main__ - Starting model comparison
+05/04/2025 22:19:20 - INFO - __main__ - Starting model comparison
+05/04/2025 22:19:20 - INFO - __main__ - Running GNN models comparison only
+05/04/2025 22:19:20 - ERROR - __main__ - Error importing GNN comparison module: No module named 'gnn_comparison'
+05/04/2025 22:19:20 - INFO - __main__ - Created gnn_comparison.py. Please run again.
+05/04/2025 22:19:41 - INFO - __main__ - Starting model comparison
+05/04/2025 22:19:41 - INFO - __main__ - Running GNN models comparison only
+05/04/2025 22:19:41 - ERROR - __main__ - Error importing GNN comparison module: No module named 'torch'
+05/04/2025 22:19:41 - INFO - __main__ - Created gnn_comparison.py. Please run again.
+05/04/2025 22:19:46 - INFO - __main__ - Starting model comparison
+05/04/2025 22:19:46 - INFO - __main__ - Running GNN models comparison only
+05/04/2025 22:19:48 - INFO - datasets - PyTorch version 2.7.0 available.
+05/04/2025 22:19:48 - INFO - gnn_comparison - Using device: cuda
+05/04/2025 22:19:48 - INFO - gnn_comparison - Loading datasets...
+05/04/2025 22:19:59 - INFO - gnn_comparison - Total samples after combining: 24586
+05/04/2025 22:19:59 - INFO - gnn_comparison - Train set: 19668 samples, label distribution: {False: 10650, True: 9018}
+05/04/2025 22:19:59 - INFO - gnn_comparison - Val set: 2459 samples, label distribution: {False: 1331, True: 1128}
+05/04/2025 22:19:59 - INFO - gnn_comparison - Test set: 2459 samples, label distribution: {False: 1332, True: 1127}
+05/04/2025 22:19:59 - INFO - gnn_comparison - Preparing data for GNN models...
+05/04/2025 22:19:59 - INFO - gnn_main - Dataset created with label distribution: {1.0: 9018, 0.0: 10650}
+05/04/2025 22:19:59 - INFO - gnn_main - Dataset created with label distribution: {1.0: 1128, 0.0: 1331}
+05/04/2025 22:19:59 - INFO - gnn_main - Dataset created with label distribution: {1.0: 1127, 0.0: 1332}
+05/04/2025 22:19:59 - INFO - gnn_comparison - Training GCN model...
+05/04/2025 22:22:57 - INFO - gnn_comparison - Epoch 1/5:
+05/04/2025 22:22:57 - INFO - gnn_comparison - Train Loss: 0.6904
+05/04/2025 22:22:57 - INFO - gnn_comparison - Val Loss: 0.6859
+05/04/2025 22:22:57 - INFO - gnn_comparison - Val Accuracy: 0.5584
+05/04/2025 22:22:57 - INFO - gnn_comparison - Val Precision: 0.5376
+05/04/2025 22:22:57 - INFO - gnn_comparison - Val Recall: 0.2660
+05/04/2025 22:22:57 - INFO - gnn_comparison - Val F1: 0.3559
+05/04/2025 22:22:57 - INFO - gnn_comparison - Best model saved with F1: 0.3559
+05/05/2025 13:00:56 - INFO - __main__ - Starting model comparison
+05/05/2025 13:00:59 - INFO - datasets - PyTorch version 2.7.0 available.
+05/05/2025 13:00:59 - INFO - __main__ - Running comparison with models: ['all']
+05/05/2025 13:00:59 - INFO - model_comparison - Using device: cuda
+05/05/2025 13:00:59 - INFO - model_comparison - Loading datasets...
+05/05/2025 13:01:09 - INFO - model_comparison - Total samples after combining: 24586
+05/05/2025 13:01:09 - INFO - model_comparison - Train set: 19668 samples, label distribution: {False: 10650, True: 9018}
+05/05/2025 13:01:09 - INFO - model_comparison - Val set: 2459 samples, label distribution: {False: 1331, True: 1128}
+05/05/2025 13:01:09 - INFO - model_comparison - Test set: 2459 samples, label distribution: {False: 1332, True: 1127}
+05/05/2025 13:01:09 - INFO - model_comparison - Running traditional ML models...
+05/05/2025 13:01:09 - INFO - traditional_ml_models - Extracting AST features for traditional ML models...
+05/05/2025 15:20:39 - INFO - traditional_ml_models - Extracting AST features for traditional ML models...
+05/05/2025 15:42:24 - INFO - traditional_ml_models - Extracting AST features for traditional ML models...
+05/05/2025 15:53:31 - INFO - model_comparison - Training Logistic Regression model...
+05/05/2025 15:53:33 - INFO - model_comparison - Training Random Forest model...
+05/05/2025 15:53:36 - INFO - model_comparison - Preparing data for sequence models...
+05/05/2025 15:53:36 - INFO - sequence_models - Building vocabulary...
+05/05/2025 15:53:39 - INFO - sequence_models - Vocabulary size: 97854
+05/05/2025 15:53:39 - INFO - sequence_models - Creating datasets...
+05/05/2025 15:53:39 - INFO - sequence_models - Creating dataloaders...
+05/05/2025 15:53:39 - INFO - model_comparison - Training Bi-LSTM model...
+05/05/2025 15:57:20 - INFO - model_comparison - Training Transformer model...
+05/05/2025 15:57:21 - INFO - model_comparison - Preparing data for GNN models...
+05/05/2025 15:57:21 - INFO - gnn_main - Dataset created with label distribution: {1.0: 9018, 0.0: 10650}
+05/05/2025 15:57:21 - INFO - gnn_main - Dataset created with label distribution: {1.0: 1128, 0.0: 1331}
+05/05/2025 15:57:21 - INFO - gnn_main - Dataset created with label distribution: {1.0: 1127, 0.0: 1332}
+05/05/2025 15:57:21 - INFO - model_comparison - Training GCN model...
+05/05/2025 16:00:07 - INFO - model_comparison - Epoch 1/10:
+05/05/2025 16:00:07 - INFO - model_comparison - Train Loss: 0.6914
+05/05/2025 16:00:07 - INFO - model_comparison - Val Loss: 0.6856
+05/05/2025 16:00:07 - INFO - model_comparison - Val Accuracy: 0.5441
+05/05/2025 16:00:07 - INFO - model_comparison - Val Precision: 0.5065
+05/05/2025 16:00:07 - INFO - model_comparison - Val Recall: 0.2411
+05/05/2025 16:00:07 - INFO - model_comparison - Val F1: 0.3267
+05/05/2025 16:00:07 - INFO - model_comparison - Best model saved with F1: 0.3267
+05/05/2025 16:02:42 - INFO - model_comparison - Epoch 2/10:
+05/05/2025 16:02:42 - INFO - model_comparison - Train Loss: 0.6844
+05/05/2025 16:02:42 - INFO - model_comparison - Val Loss: 0.7172
+05/05/2025 16:02:42 - INFO - model_comparison - Val Accuracy: 0.4766
+05/05/2025 16:02:42 - INFO - model_comparison - Val Precision: 0.4655
+05/05/2025 16:02:42 - INFO - model_comparison - Val Recall: 0.9521
+05/05/2025 16:02:42 - INFO - model_comparison - Val F1: 0.6253
+05/05/2025 16:02:42 - INFO - model_comparison - Best model saved with F1: 0.6253
+05/05/2025 16:05:24 - INFO - model_comparison - Epoch 3/10:
+05/05/2025 16:05:24 - INFO - model_comparison - Train Loss: 0.6826
+05/05/2025 16:05:24 - INFO - model_comparison - Val Loss: 0.6781
+05/05/2025 16:05:24 - INFO - model_comparison - Val Accuracy: 0.5596
+05/05/2025 16:05:24 - INFO - model_comparison - Val Precision: 0.5304
+05/05/2025 16:05:24 - INFO - model_comparison - Val Recall: 0.3475
+05/05/2025 16:05:24 - INFO - model_comparison - Val F1: 0.4199
+05/05/2025 16:08:08 - INFO - model_comparison - Epoch 4/10:
+05/05/2025 16:08:08 - INFO - model_comparison - Train Loss: 0.6813
+05/05/2025 16:08:08 - INFO - model_comparison - Val Loss: 0.6912
+05/05/2025 16:08:08 - INFO - model_comparison - Val Accuracy: 0.5250
+05/05/2025 16:08:08 - INFO - model_comparison - Val Precision: 0.4893
+05/05/2025 16:08:08 - INFO - model_comparison - Val Recall: 0.8138
+05/05/2025 16:08:08 - INFO - model_comparison - Val F1: 0.6112
+05/05/2025 16:10:48 - INFO - model_comparison - Epoch 5/10:
+05/05/2025 16:10:48 - INFO - model_comparison - Train Loss: 0.6804
+05/05/2025 16:10:48 - INFO - model_comparison - Val Loss: 0.7057
+05/05/2025 16:10:48 - INFO - model_comparison - Val Accuracy: 0.4990
+05/05/2025 16:10:48 - INFO - model_comparison - Val Precision: 0.4755
+05/05/2025 16:10:48 - INFO - model_comparison - Val Recall: 0.8945
+05/05/2025 16:10:48 - INFO - model_comparison - Val F1: 0.6209
+05/05/2025 16:13:49 - INFO - model_comparison - Epoch 6/10:
+05/05/2025 16:13:49 - INFO - model_comparison - Train Loss: 0.6791
+05/05/2025 16:13:49 - INFO - model_comparison - Val Loss: 0.6819
+05/05/2025 16:13:49 - INFO - model_comparison - Val Accuracy: 0.5567
+05/05/2025 16:13:49 - INFO - model_comparison - Val Precision: 0.5130
+05/05/2025 16:13:49 - INFO - model_comparison - Val Recall: 0.6631
+05/05/2025 16:13:49 - INFO - model_comparison - Val F1: 0.5785
+05/05/2025 16:17:00 - INFO - model_comparison - Epoch 7/10:
+05/05/2025 16:17:00 - INFO - model_comparison - Train Loss: 0.6774
+05/05/2025 16:17:00 - INFO - model_comparison - Val Loss: 0.6907
+05/05/2025 16:17:00 - INFO - model_comparison - Val Accuracy: 0.5681
+05/05/2025 16:17:00 - INFO - model_comparison - Val Precision: 0.5384
+05/05/2025 16:17:00 - INFO - model_comparison - Val Recall: 0.4105
+05/05/2025 16:17:00 - INFO - model_comparison - Val F1: 0.4658
+05/05/2025 16:20:22 - INFO - model_comparison - Epoch 8/10:
+05/05/2025 16:20:22 - INFO - model_comparison - Train Loss: 0.6772
+05/05/2025 16:20:22 - INFO - model_comparison - Val Loss: 0.6890
+05/05/2025 16:20:22 - INFO - model_comparison - Val Accuracy: 0.5535
+05/05/2025 16:20:22 - INFO - model_comparison - Val Precision: 0.5153
+05/05/2025 16:20:22 - INFO - model_comparison - Val Recall: 0.4477
+05/05/2025 16:20:22 - INFO - model_comparison - Val F1: 0.4791
+05/05/2025 16:23:49 - INFO - model_comparison - Epoch 9/10:
+05/05/2025 16:23:49 - INFO - model_comparison - Train Loss: 0.6744
+05/05/2025 16:23:49 - INFO - model_comparison - Val Loss: 0.6784
+05/05/2025 16:23:49 - INFO - model_comparison - Val Accuracy: 0.5714
+05/05/2025 16:23:49 - INFO - model_comparison - Val Precision: 0.5501
+05/05/2025 16:23:49 - INFO - model_comparison - Val Recall: 0.3599
+05/05/2025 16:23:49 - INFO - model_comparison - Val F1: 0.4352
+05/05/2025 16:27:16 - INFO - model_comparison - Epoch 10/10:
+05/05/2025 16:27:16 - INFO - model_comparison - Train Loss: 0.6730
+05/05/2025 16:27:16 - INFO - model_comparison - Val Loss: 0.6765
+05/05/2025 16:27:16 - INFO - model_comparison - Val Accuracy: 0.5754
+05/05/2025 16:27:16 - INFO - model_comparison - Val Precision: 0.5575
+05/05/2025 16:27:16 - INFO - model_comparison - Val Recall: 0.3608
+05/05/2025 16:27:16 - INFO - model_comparison - Val F1: 0.4381
+05/05/2025 16:27:41 - INFO - model_comparison - Training GraphSAGE model...
+05/05/2025 16:31:26 - INFO - model_comparison - Epoch 1/10:
+05/05/2025 16:31:26 - INFO - model_comparison - Train Loss: 0.6901
+05/05/2025 16:31:26 - INFO - model_comparison - Val Loss: 0.6817
+05/05/2025 16:31:26 - INFO - model_comparison - Val Accuracy: 0.5673
+05/05/2025 16:31:26 - INFO - model_comparison - Val Precision: 0.6013
+05/05/2025 16:31:26 - INFO - model_comparison - Val Recall: 0.1684
+05/05/2025 16:31:26 - INFO - model_comparison - Val F1: 0.2632
+05/05/2025 16:31:26 - INFO - model_comparison - Best model saved with F1: 0.2632
+05/05/2025 16:35:01 - INFO - model_comparison - Epoch 2/10:
+05/05/2025 16:35:01 - INFO - model_comparison - Train Loss: 0.6805
+05/05/2025 16:35:01 - INFO - model_comparison - Val Loss: 0.6874
+05/05/2025 16:35:01 - INFO - model_comparison - Val Accuracy: 0.5494
+05/05/2025 16:35:01 - INFO - model_comparison - Val Precision: 0.7632
+05/05/2025 16:35:01 - INFO - model_comparison - Val Recall: 0.0257
+05/05/2025 16:35:01 - INFO - model_comparison - Val F1: 0.0497
+05/05/2025 16:38:47 - INFO - model_comparison - Epoch 3/10:
+05/05/2025 16:38:47 - INFO - model_comparison - Train Loss: 0.6771
+05/05/2025 16:38:47 - INFO - model_comparison - Val Loss: 0.6852
+05/05/2025 16:38:47 - INFO - model_comparison - Val Accuracy: 0.5523
+05/05/2025 16:38:47 - INFO - model_comparison - Val Precision: 0.7455
+05/05/2025 16:38:47 - INFO - model_comparison - Val Recall: 0.0363
+05/05/2025 16:38:47 - INFO - model_comparison - Val F1: 0.0693
+05/05/2025 16:43:47 - INFO - model_comparison - Epoch 4/10:
+05/05/2025 16:43:47 - INFO - model_comparison - Train Loss: 0.6751
+05/05/2025 16:43:47 - INFO - model_comparison - Val Loss: 0.6737
+05/05/2025 16:43:47 - INFO - model_comparison - Val Accuracy: 0.5661
+05/05/2025 16:43:47 - INFO - model_comparison - Val Precision: 0.5761
+05/05/2025 16:43:47 - INFO - model_comparison - Val Recall: 0.2048
+05/05/2025 16:43:47 - INFO - model_comparison - Val F1: 0.3022
+05/05/2025 16:43:47 - INFO - model_comparison - Best model saved with F1: 0.3022
+05/05/2025 16:47:18 - INFO - model_comparison - Epoch 5/10:
+05/05/2025 16:47:18 - INFO - model_comparison - Train Loss: 0.6747
+05/05/2025 16:47:18 - INFO - model_comparison - Val Loss: 0.6830
+05/05/2025 16:47:18 - INFO - model_comparison - Val Accuracy: 0.5632
+05/05/2025 16:47:18 - INFO - model_comparison - Val Precision: 0.6901
+05/05/2025 16:47:18 - INFO - model_comparison - Val Recall: 0.0869
+05/05/2025 16:47:18 - INFO - model_comparison - Val F1: 0.1543
+05/05/2025 16:50:09 - INFO - model_comparison - Epoch 6/10:
+05/05/2025 16:50:09 - INFO - model_comparison - Train Loss: 0.6720
+05/05/2025 16:50:09 - INFO - model_comparison - Val Loss: 0.6726
+05/05/2025 16:50:09 - INFO - model_comparison - Val Accuracy: 0.5620
+05/05/2025 16:50:09 - INFO - model_comparison - Val Precision: 0.6689
+05/05/2025 16:50:09 - INFO - model_comparison - Val Recall: 0.0895
+05/05/2025 16:50:09 - INFO - model_comparison - Val F1: 0.1579
+05/05/2025 16:52:38 - INFO - model_comparison - Epoch 7/10:
+05/05/2025 16:52:38 - INFO - model_comparison - Train Loss: 0.6712
+05/05/2025 16:52:38 - INFO - model_comparison - Val Loss: 0.6794
+05/05/2025 16:52:38 - INFO - model_comparison - Val Accuracy: 0.5580
+05/05/2025 16:52:38 - INFO - model_comparison - Val Precision: 0.8254
+05/05/2025 16:52:38 - INFO - model_comparison - Val Recall: 0.0461
+05/05/2025 16:52:38 - INFO - model_comparison - Val F1: 0.0873
+05/05/2025 16:55:01 - INFO - model_comparison - Epoch 8/10:
+05/05/2025 16:55:01 - INFO - model_comparison - Train Loss: 0.6718
+05/05/2025 16:55:01 - INFO - model_comparison - Val Loss: 0.6778
+05/05/2025 16:55:01 - INFO - model_comparison - Val Accuracy: 0.5596
+05/05/2025 16:55:01 - INFO - model_comparison - Val Precision: 0.8261
+05/05/2025 16:55:01 - INFO - model_comparison - Val Recall: 0.0505
+05/05/2025 16:55:01 - INFO - model_comparison - Val F1: 0.0952
+05/05/2025 16:57:30 - INFO - model_comparison - Epoch 9/10:
+05/05/2025 16:57:30 - INFO - model_comparison - Train Loss: 0.6690
+05/05/2025 16:57:30 - INFO - model_comparison - Val Loss: 0.6730
+05/05/2025 16:57:30 - INFO - model_comparison - Val Accuracy: 0.5592
+05/05/2025 16:57:30 - INFO - model_comparison - Val Precision: 0.6594
+05/05/2025 16:57:30 - INFO - model_comparison - Val Recall: 0.0807
+05/05/2025 16:57:30 - INFO - model_comparison - Val F1: 0.1438
+05/05/2025 17:00:08 - INFO - model_comparison - Epoch 10/10:
+05/05/2025 17:00:08 - INFO - model_comparison - Train Loss: 0.6709
+05/05/2025 17:00:08 - INFO - model_comparison - Val Loss: 0.6837
+05/05/2025 17:00:08 - INFO - model_comparison - Val Accuracy: 0.5580
+05/05/2025 17:00:08 - INFO - model_comparison - Val Precision: 0.8154
+05/05/2025 17:00:08 - INFO - model_comparison - Val Recall: 0.0470
+05/05/2025 17:00:08 - INFO - model_comparison - Val F1: 0.0889
+05/05/2025 17:00:26 - INFO - model_comparison - Training GAT model...
+05/05/2025 17:02:57 - INFO - model_comparison - Epoch 1/10:
+05/05/2025 17:02:57 - INFO - model_comparison - Train Loss: 0.6904
+05/05/2025 17:02:57 - INFO - model_comparison - Val Loss: 0.6849
+05/05/2025 17:02:57 - INFO - model_comparison - Val Accuracy: 0.5494
+05/05/2025 17:02:57 - INFO - model_comparison - Val Precision: 0.5676
+05/05/2025 17:02:57 - INFO - model_comparison - Val Recall: 0.0745
+05/05/2025 17:02:57 - INFO - model_comparison - Val F1: 0.1317
+05/05/2025 17:02:57 - INFO - model_comparison - Best model saved with F1: 0.1317
+05/05/2025 17:05:27 - INFO - model_comparison - Epoch 2/10:
+05/05/2025 17:05:27 - INFO - model_comparison - Train Loss: 0.6882
+05/05/2025 17:05:27 - INFO - model_comparison - Val Loss: 0.6838
+05/05/2025 17:05:27 - INFO - model_comparison - Val Accuracy: 0.5563
+05/05/2025 17:05:27 - INFO - model_comparison - Val Precision: 0.5326
+05/05/2025 17:05:27 - INFO - model_comparison - Val Recall: 0.2677
+05/05/2025 17:05:27 - INFO - model_comparison - Val F1: 0.3563
+05/05/2025 17:05:27 - INFO - model_comparison - Best model saved with F1: 0.3563
+05/05/2025 17:08:05 - INFO - model_comparison - Epoch 3/10:
+05/05/2025 17:08:05 - INFO - model_comparison - Train Loss: 0.6875
+05/05/2025 17:08:05 - INFO - model_comparison - Val Loss: 0.6847
+05/05/2025 17:08:05 - INFO - model_comparison - Val Accuracy: 0.5547
+05/05/2025 17:08:05 - INFO - model_comparison - Val Precision: 0.5511
+05/05/2025 17:08:05 - INFO - model_comparison - Val Recall: 0.1578
+05/05/2025 17:08:05 - INFO - model_comparison - Val F1: 0.2453
+05/05/2025 17:10:47 - INFO - model_comparison - Epoch 4/10:
+05/05/2025 17:10:47 - INFO - model_comparison - Train Loss: 0.6871
+05/05/2025 17:10:47 - INFO - model_comparison - Val Loss: 0.6842
+05/05/2025 17:10:47 - INFO - model_comparison - Val Accuracy: 0.5539
+05/05/2025 17:10:47 - INFO - model_comparison - Val Precision: 0.5572
+05/05/2025 17:10:47 - INFO - model_comparison - Val Recall: 0.1339
+05/05/2025 17:10:47 - INFO - model_comparison - Val F1: 0.2159
+05/05/2025 17:13:24 - INFO - model_comparison - Epoch 5/10:
+05/05/2025 17:13:24 - INFO - model_comparison - Train Loss: 0.6865
+05/05/2025 17:13:24 - INFO - model_comparison - Val Loss: 0.6839
+05/05/2025 17:13:24 - INFO - model_comparison - Val Accuracy: 0.5697
+05/05/2025 17:13:24 - INFO - model_comparison - Val Precision: 0.5543
+05/05/2025 17:13:24 - INFO - model_comparison - Val Recall: 0.3165
+05/05/2025 17:13:24 - INFO - model_comparison - Val F1: 0.4029
+05/05/2025 17:13:24 - INFO - model_comparison - Best model saved with F1: 0.4029
+05/05/2025 17:16:04 - INFO - model_comparison - Epoch 6/10:
+05/05/2025 17:16:04 - INFO - model_comparison - Train Loss: 0.6863
+05/05/2025 17:16:04 - INFO - model_comparison - Val Loss: 0.6820
+05/05/2025 17:16:04 - INFO - model_comparison - Val Accuracy: 0.5685
+05/05/2025 17:16:04 - INFO - model_comparison - Val Precision: 0.5526
+05/05/2025 17:16:04 - INFO - model_comparison - Val Recall: 0.3121
+05/05/2025 17:16:04 - INFO - model_comparison - Val F1: 0.3989
+05/05/2025 17:18:33 - INFO - model_comparison - Epoch 7/10:
+05/05/2025 17:18:33 - INFO - model_comparison - Train Loss: 0.6857
+05/05/2025 17:18:33 - INFO - model_comparison - Val Loss: 0.6811
+05/05/2025 17:18:33 - INFO - model_comparison - Val Accuracy: 0.5734
+05/05/2025 17:18:33 - INFO - model_comparison - Val Precision: 0.5611
+05/05/2025 17:18:33 - INFO - model_comparison - Val Recall: 0.3218
+05/05/2025 17:18:33 - INFO - model_comparison - Val F1: 0.4090
+05/05/2025 17:18:33 - INFO - model_comparison - Best model saved with F1: 0.4090
+05/05/2025 17:20:55 - INFO - model_comparison - Epoch 8/10:
+05/05/2025 17:20:55 - INFO - model_comparison - Train Loss: 0.6856
+05/05/2025 17:20:55 - INFO - model_comparison - Val Loss: 0.6818
+05/05/2025 17:20:55 - INFO - model_comparison - Val Accuracy: 0.5685
+05/05/2025 17:20:55 - INFO - model_comparison - Val Precision: 0.5629
+05/05/2025 17:20:55 - INFO - model_comparison - Val Recall: 0.2660
+05/05/2025 17:20:55 - INFO - model_comparison - Val F1: 0.3612
+05/05/2025 17:23:29 - INFO - model_comparison - Epoch 9/10:
+05/05/2025 17:23:29 - INFO - model_comparison - Train Loss: 0.6839
+05/05/2025 17:23:29 - INFO - model_comparison - Val Loss: 0.6801
+05/05/2025 17:23:29 - INFO - model_comparison - Val Accuracy: 0.5746
+05/05/2025 17:23:29 - INFO - model_comparison - Val Precision: 0.5507
+05/05/2025 17:23:29 - INFO - model_comparison - Val Recall: 0.3945
+05/05/2025 17:23:29 - INFO - model_comparison - Val F1: 0.4597
+05/05/2025 17:23:29 - INFO - model_comparison - Best model saved with F1: 0.4597
+05/05/2025 17:25:55 - INFO - model_comparison - Epoch 10/10:
+05/05/2025 17:25:55 - INFO - model_comparison - Train Loss: 0.6841
+05/05/2025 17:25:55 - INFO - model_comparison - Val Loss: 0.6794
+05/05/2025 17:25:55 - INFO - model_comparison - Val Accuracy: 0.5620
+05/05/2025 17:25:55 - INFO - model_comparison - Val Precision: 0.5594
+05/05/2025 17:25:55 - INFO - model_comparison - Val Recall: 0.2128
+05/05/2025 17:25:55 - INFO - model_comparison - Val F1: 0.3083
+05/05/2025 17:26:12 - INFO - model_comparison - Training Improved GNN model...
+05/05/2025 17:28:48 - INFO - model_comparison - Epoch 1/10:
+05/05/2025 17:28:48 - INFO - model_comparison - Train Loss: 0.6932
+05/05/2025 17:28:48 - INFO - model_comparison - Val Loss: 0.6965
+05/05/2025 17:28:48 - INFO - model_comparison - Val Accuracy: 0.4815
+05/05/2025 17:28:48 - INFO - model_comparison - Val Precision: 0.4688
+05/05/2025 17:28:48 - INFO - model_comparison - Val Recall: 0.9805
+05/05/2025 17:28:48 - INFO - model_comparison - Val F1: 0.6344
+05/05/2025 17:28:48 - INFO - model_comparison - Best model saved with F1: 0.6344
+05/05/2025 17:31:33 - INFO - model_comparison - Epoch 2/10:
+05/05/2025 17:31:33 - INFO - model_comparison - Train Loss: 0.6858
+05/05/2025 17:31:33 - INFO - model_comparison - Val Loss: 0.6761
+05/05/2025 17:31:33 - INFO - model_comparison - Val Accuracy: 0.5657
+05/05/2025 17:31:33 - INFO - model_comparison - Val Precision: 0.5688
+05/05/2025 17:31:33 - INFO - model_comparison - Val Recall: 0.2199
+05/05/2025 17:31:33 - INFO - model_comparison - Val F1: 0.3171
+05/05/2025 17:33:49 - INFO - model_comparison - Epoch 3/10:
+05/05/2025 17:33:49 - INFO - model_comparison - Train Loss: 0.6811
+05/05/2025 17:33:49 - INFO - model_comparison - Val Loss: 0.6734
+05/05/2025 17:33:49 - INFO - model_comparison - Val Accuracy: 0.5616
+05/05/2025 17:33:49 - INFO - model_comparison - Val Precision: 0.6488
+05/05/2025 17:33:49 - INFO - model_comparison - Val Recall: 0.0966
+05/05/2025 17:33:49 - INFO - model_comparison - Val F1: 0.1682
+05/05/2025 17:36:06 - INFO - model_comparison - Epoch 4/10:
+05/05/2025 17:36:06 - INFO - model_comparison - Train Loss: 0.6766
+05/05/2025 17:36:06 - INFO - model_comparison - Val Loss: 0.6776
+05/05/2025 17:36:06 - INFO - model_comparison - Val Accuracy: 0.5628
+05/05/2025 17:36:06 - INFO - model_comparison - Val Precision: 0.8046
+05/05/2025 17:36:06 - INFO - model_comparison - Val Recall: 0.0621
+05/05/2025 17:36:06 - INFO - model_comparison - Val F1: 0.1152
+05/05/2025 17:38:26 - INFO - model_comparison - Epoch 5/10:
+05/05/2025 17:38:26 - INFO - model_comparison - Train Loss: 0.6770
+05/05/2025 17:38:26 - INFO - model_comparison - Val Loss: 0.6717
+05/05/2025 17:38:26 - INFO - model_comparison - Val Accuracy: 0.5661
+05/05/2025 17:38:26 - INFO - model_comparison - Val Precision: 0.5859
+05/05/2025 17:38:26 - INFO - model_comparison - Val Recall: 0.1844
+05/05/2025 17:38:26 - INFO - model_comparison - Val F1: 0.2805
+05/05/2025 17:40:49 - INFO - model_comparison - Epoch 6/10:
+05/05/2025 17:40:49 - INFO - model_comparison - Train Loss: 0.6746
+05/05/2025 17:40:49 - INFO - model_comparison - Val Loss: 0.6731
+05/05/2025 17:40:49 - INFO - model_comparison - Val Accuracy: 0.5706
+05/05/2025 17:40:49 - INFO - model_comparison - Val Precision: 0.5416
+05/05/2025 17:40:49 - INFO - model_comparison - Val Recall: 0.4158
+05/05/2025 17:40:49 - INFO - model_comparison - Val F1: 0.4704
+05/05/2025 17:43:43 - INFO - model_comparison - Epoch 7/10:
+05/05/2025 17:43:43 - INFO - model_comparison - Train Loss: 0.6743
+05/05/2025 17:43:43 - INFO - model_comparison - Val Loss: 0.6737
+05/05/2025 17:43:43 - INFO - model_comparison - Val Accuracy: 0.5653
+05/05/2025 17:43:43 - INFO - model_comparison - Val Precision: 0.5440
+05/05/2025 17:43:43 - INFO - model_comparison - Val Recall: 0.3236
+05/05/2025 17:43:43 - INFO - model_comparison - Val F1: 0.4058
+05/05/2025 17:46:21 - INFO - model_comparison - Epoch 8/10:
+05/05/2025 17:46:21 - INFO - model_comparison - Train Loss: 0.6719
+05/05/2025 17:46:21 - INFO - model_comparison - Val Loss: 0.6741
+05/05/2025 17:46:21 - INFO - model_comparison - Val Accuracy: 0.5628
+05/05/2025 17:46:21 - INFO - model_comparison - Val Precision: 0.8118
+05/05/2025 17:46:21 - INFO - model_comparison - Val Recall: 0.0612
+05/05/2025 17:46:21 - INFO - model_comparison - Val F1: 0.1138
+05/05/2025 17:49:08 - INFO - model_comparison - Epoch 9/10:
+05/05/2025 17:49:08 - INFO - model_comparison - Train Loss: 0.6722
+05/05/2025 17:49:08 - INFO - model_comparison - Val Loss: 0.6725
+05/05/2025 17:49:08 - INFO - model_comparison - Val Accuracy: 0.5767
+05/05/2025 17:49:08 - INFO - model_comparison - Val Precision: 0.6166
+05/05/2025 17:49:08 - INFO - model_comparison - Val Recall: 0.2039
+05/05/2025 17:49:08 - INFO - model_comparison - Val F1: 0.3065
+05/05/2025 17:52:00 - INFO - model_comparison - Epoch 10/10:
+05/05/2025 17:52:00 - INFO - model_comparison - Train Loss: 0.6713
+05/05/2025 17:52:00 - INFO - model_comparison - Val Loss: 0.6684
+05/05/2025 17:52:00 - INFO - model_comparison - Val Accuracy: 0.5681
+05/05/2025 17:52:00 - INFO - model_comparison - Val Precision: 0.6774
+05/05/2025 17:52:00 - INFO - model_comparison - Val Recall: 0.1117
+05/05/2025 17:52:00 - INFO - model_comparison - Val F1: 0.1918
+05/05/2025 17:52:19 - INFO - model_comparison - 
+===== MODEL COMPARISON RESULTS =====
+05/05/2025 17:52:19 - INFO - model_comparison - 
+LogisticRegression:
+05/05/2025 17:52:19 - INFO - model_comparison -   Accuracy: 0.5417
+05/05/2025 17:52:19 - INFO - model_comparison -   Precision: 0.5000
+05/05/2025 17:52:19 - INFO - model_comparison -   Recall: 0.5271
+05/05/2025 17:52:19 - INFO - model_comparison -   F1: 0.5132
+05/05/2025 21:56:52 - INFO - __main__ - Starting model comparison
+05/05/2025 21:56:56 - INFO - datasets - PyTorch version 2.7.0 available.
+05/05/2025 21:56:56 - INFO - __main__ - Running comparison with models: ['randomforest']
+05/05/2025 21:56:56 - INFO - model_comparison - Using device: cuda
+05/05/2025 21:56:56 - INFO - model_comparison - Loading datasets...
+05/05/2025 21:57:07 - INFO - model_comparison - Total samples after combining: 24586
+05/05/2025 21:57:07 - INFO - model_comparison - Train set: 19668 samples, label distribution: {False: 10650, True: 9018}
+05/05/2025 21:57:07 - INFO - model_comparison - Val set: 2459 samples, label distribution: {False: 1331, True: 1128}
+05/05/2025 21:57:07 - INFO - model_comparison - Test set: 2459 samples, label distribution: {False: 1332, True: 1127}
+05/05/2025 21:57:07 - INFO - model_comparison - 
+===== MODEL COMPARISON RESULTS =====
+05/05/2025 21:57:07 - INFO - model_comparison - Results saved to model_comparison_results.csv
+05/05/2025 21:57:07 - INFO - model_comparison - Visualizations saved as PNG files
+05/05/2025 21:57:07 - INFO - __main__ - Model comparison completed
+05/05/2025 21:57:07 - INFO - __main__ - Results saved to ./comparison_results
+05/05/2025 21:57:15 - INFO - __main__ - Starting model comparison
+05/05/2025 21:57:18 - INFO - datasets - PyTorch version 2.7.0 available.
+05/05/2025 21:57:18 - INFO - __main__ - Running comparison with models: ['lstm']
+05/05/2025 21:57:18 - INFO - model_comparison - Using device: cuda
+05/05/2025 21:57:18 - INFO - model_comparison - Loading datasets...
+05/05/2025 21:57:27 - INFO - model_comparison - Total samples after combining: 24586
+05/05/2025 21:57:27 - INFO - model_comparison - Train set: 19668 samples, label distribution: {False: 10650, True: 9018}
+05/05/2025 21:57:27 - INFO - model_comparison - Val set: 2459 samples, label distribution: {False: 1331, True: 1128}
+05/05/2025 21:57:27 - INFO - model_comparison - Test set: 2459 samples, label distribution: {False: 1332, True: 1127}
+05/05/2025 21:57:27 - INFO - model_comparison - 
+===== MODEL COMPARISON RESULTS =====
+05/05/2025 21:57:27 - INFO - model_comparison - Results saved to model_comparison_results.csv
+05/05/2025 21:57:27 - INFO - model_comparison - Visualizations saved as PNG files
+05/05/2025 21:57:27 - INFO - __main__ - Model comparison completed
+05/05/2025 21:57:27 - INFO - __main__ - Results saved to ./comparison_results
