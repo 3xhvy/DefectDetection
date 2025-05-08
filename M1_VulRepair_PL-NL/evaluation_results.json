@@ -1,0 +1,52 @@
+{
+  "average_results": {
+    "syntax_validity": 0.0,
+    "vulnerability_removal": 0.6,
+    "semantic_similarity": 0.1425417299659115,
+    "edit_distance": 1.6800000000000002
+  },
+  "individual_results": {
+    "syntax_validity": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "vulnerability_removal": [
+      1,
+      1,
+      0,
+      0,
+      1
+    ],
+    "semantic_similarity": [
+      0.1348314606741573,
+      0.11221122112211221,
+      0.17105263157894737,
+      0.17573221757322174,
+      0.11888111888111888
+    ],
+    "edit_distance": [
+      1.6,
+      1.6,
+      2.0,
+      1.6,
+      1.6
+    ],
+    "vulnerability_count_before": [
+      -1,
+      -1,
+      -1,
+      -1,
+      -1
+    ],
+    "vulnerability_count_after": [
+      -1,
+      -1,
+      -1,
+      -1,
+      -1
+    ]
+  }
+}
